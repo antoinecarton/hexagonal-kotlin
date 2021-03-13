@@ -32,7 +32,7 @@ class DeleteTaskUseCaseTest: FunSpec() {
             result shouldBe Unit.right()
         }
 
-        test("'delete' must return a Left when port failed to create the task") {
+        test("'delete' must return a Left when port failed to delete the task") {
             // Given
             val taskPort = mockk<TaskPort>()
             val useCase = DeleteTaskUseCase(taskPort)

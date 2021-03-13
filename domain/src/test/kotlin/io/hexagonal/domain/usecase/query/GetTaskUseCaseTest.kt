@@ -35,7 +35,7 @@ class GetTaskUseCaseTest: FunSpec() {
             result shouldBe t1.right()
         }
 
-        test("'get' must return a NotFound domain error when the task when does not exist") {
+        test("'get' must return a NotFound domain error when the task does not exist") {
             // Given
             val taskPort = mockk<TaskPort>()
             val useCase = GetTaskUseCase(taskPort)

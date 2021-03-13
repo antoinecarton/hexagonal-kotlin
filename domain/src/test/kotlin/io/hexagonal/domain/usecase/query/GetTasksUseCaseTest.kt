@@ -35,7 +35,7 @@ class GetTasksUseCaseTest: FunSpec() {
             result shouldBe tasks.right()
         }
 
-        test("'all' must return a Left with an error occurs") {
+        test("'all' must return a Left when an error occurs") {
             // Given
             val taskPort = mockk<TaskPort>()
             val useCase = GetTasksUseCase(taskPort)
