@@ -42,8 +42,8 @@ business rules :)
 The following request are based on [httpie](https://httpie.io/) tool.
 
 #### Get all tasks
-```
-http :9090/tasks
+```🚀
+🚀 http :9090/tasks
 
 HTTP/1.1 200 OK
 Connection: keep-alive
@@ -67,12 +67,11 @@ transfer-encoding: chunked
         "state": "CANCELLED"
     }
 ]
-
 ```
 
 #### Get task by its id
-```
-🚀http :9090/tasks/682c1b16-532e-4164-afc3-ae5fd00671af
+```🚀
+🚀 http :9090/tasks/682c1b16-532e-4164-afc3-ae5fd00671af
 
 HTTP/1.1 200 OK
 Connection: keep-alive
@@ -91,8 +90,8 @@ transfer-encoding: chunked
 ```
 
 #### Add a new task
-```
-🚀http PUT :9090/tasks Content-Type:application/json name="Buy Robin #1" content="Do not forget to read it"
+```🚀
+🚀 http PUT :9090/tasks Content-Type:application/json name="Buy Robin #1" content="Do not forget to read it"
 
 HTTP/1.1 201 Created
 Connection: keep-alive
@@ -112,7 +111,7 @@ transfer-encoding: chunked
 
 #### Move a task to IN_PROGRESS (or another state)
 ```
-🚀http POST :9090/tasks/move/0661ef75-3e57-47d1-b8b0-c90d7be6d653 Content-Type:application/json  state=IN_PROGRESS
+🚀 http POST :9090/tasks/move/0661ef75-3e57-47d1-b8b0-c90d7be6d653 Content-Type:application/json  state=IN_PROGRESS
 
 HTTP/1.1 200 OK
 Connection: keep-alive
@@ -131,8 +130,8 @@ transfer-encoding: chunked
 ```
 
 #### Delete a task
-```
-🚀💥http DELETE :9090/tasks/0661ef75-3e57-47d1-b8b0-c90d7be6d653 Content-Type:application/json
+```🚀
+🚀 http DELETE :9090/tasks/0661ef75-3e57-47d1-b8b0-c90d7be6d653 Content-Type:application/json
 
 HTTP/1.1 204 No Content
 Connection: keep-alive
