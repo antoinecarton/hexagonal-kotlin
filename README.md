@@ -1,7 +1,7 @@
 # Hexagonal-kotlin-playground
 Purpose of this project is to implement a hexagonal architecture in Kotlin.
 
-This project is a simple tasks manager with some constraints related to state transitions. See [state diagram](#state-diagram) section for details.
+This project is a simple task manager with some constraints related to state transitions. See [state diagram](#state-diagram) section for details.
 
 The implementation is using the functional programming library [Arrow](https://arrow-kt.io/).
 
@@ -23,14 +23,15 @@ Ktor is used as a web server, just to learn something new.
 This projects may of course receive improvements such as adding integration tests with Ktor...
 
 ## Hexagonal architecture
-Our business rules and our domain are isolated from any technical implementation. 
-Requests are first validated, then processed if valid.
 ![hexagonal_implementation](_docs/hexagonal_implementation.png)
+Our business rules and our domain are isolated from any technical implementation.
+Requests are first validated, then processed if valid.
 
 ## State diagram
-As shown on the diagram, it is not possible to move a task that is cancelled or done. This is simply to have some 
-business rules :)
 ![state diagram](_docs/state.png)
+
+As shown on the diagram, it is not possible to move a task that is cancelled or done. 
+This is simply to have some business rules :)
 
 ## Run tests
 `./gradlew test`
@@ -39,7 +40,7 @@ business rules :)
 `./gradlew run`
 
 ### Requests
-The following request are based on [httpie](https://httpie.io/) tool.
+The following requests are based on [httpie](https://httpie.io/) tool.
 
 #### Get all tasks
 ```🚀
