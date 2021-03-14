@@ -20,7 +20,7 @@ class InMemoryTaskDb : TaskPort {
 
     private val tasks = Caffeine
         .newBuilder()
-        .maximumSize(200)
+        .maximumSize(200) // that's enough for our example :)
         .build<UUID, Task>()
 
     init {

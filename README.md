@@ -110,6 +110,7 @@ transfer-encoding: chunked
 ```
 
 #### Move a task to IN_PROGRESS (or another state)
+(Do not forget to put the id created at the previous step as it may differ from the example)
 ```
 🚀 http POST :9090/tasks/move/0661ef75-3e57-47d1-b8b0-c90d7be6d653 Content-Type:application/json  state=IN_PROGRESS
 
