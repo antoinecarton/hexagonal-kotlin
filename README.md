@@ -1,4 +1,4 @@
-# Hexagonal-kotlin-playground
+# Hexagonal-kotlin
 Purpose of this project is to implement a hexagonal architecture in Kotlin.
 
 This project is a simple task manager with some constraints related to state transitions. See [state diagram](#state-diagram) section for details.
