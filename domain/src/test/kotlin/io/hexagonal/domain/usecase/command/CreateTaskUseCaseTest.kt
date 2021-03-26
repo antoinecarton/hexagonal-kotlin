@@ -2,7 +2,7 @@ package io.hexagonal.domain.usecase.command
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError.AlreadyExist
+import io.hexagonal.domain.model.TaskError.AlreadyExist
 import io.hexagonal.domain.ports.primary.command.CreateTaskRequest
 import io.hexagonal.domain.ports.secondary.TaskPort
 import io.hexagonal.domain.usecase.command.CreateTaskUseCase.Companion.toTask

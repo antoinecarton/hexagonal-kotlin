@@ -2,7 +2,7 @@ package io.hexagonal.domain.usecase.query
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.secondary.TaskPort
@@ -40,7 +40,7 @@ class GetTasksUseCaseTest: FunSpec() {
             val taskPort = mockk<TaskPort>()
             val useCase = GetTasksUseCase(taskPort)
 
-            val domainError = DomainError.Unknown("Force an unknown error")
+            val domainError = TaskError.Unknown("Force an unknown error")
             every { taskPort.all() } returns domainError.left()
 
             // When

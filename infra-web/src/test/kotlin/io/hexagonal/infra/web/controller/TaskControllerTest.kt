@@ -2,9 +2,9 @@ package io.hexagonal.infra.web.controller
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError.InvalidState
-import io.hexagonal.domain.model.DomainError.NotFound
-import io.hexagonal.domain.model.DomainError.Unknown
+import io.hexagonal.domain.model.TaskError.InvalidState
+import io.hexagonal.domain.model.TaskError.NotFound
+import io.hexagonal.domain.model.TaskError.Unknown
 import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.primary.command.CreateTaskRequest

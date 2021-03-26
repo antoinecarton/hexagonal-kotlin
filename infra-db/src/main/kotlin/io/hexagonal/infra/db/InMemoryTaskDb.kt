@@ -6,7 +6,7 @@ import arrow.core.right
 import arrow.core.rightIfNotNull
 import com.github.benmanes.caffeine.cache.Caffeine
 import io.hexagonal.domain.model.DResult
-import io.hexagonal.domain.model.DomainError
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.secondary.TaskPort
@@ -43,7 +43,7 @@ class InMemoryTaskDb : TaskPort {
         get(task.id).fold(
             {
                 when (it) {
-                    is DomainError.NotFound -> {
+                    is TaskError.NotFound -> {
                         tasks.put(task.id, task)
                         task.right()
                     }
@@ -51,7 +51,7 @@ class InMemoryTaskDb : TaskPort {
                 }
             },
             {
-                DomainError.AlreadyExist("Task with name ${task.name} already exists").left()
+                TaskError.AlreadyExist("Task with name ${task.name} already exists").left()
             }
         )
 
@@ -65,7 +65,7 @@ class InMemoryTaskDb : TaskPort {
 
     override fun get(id: UUID): DResult<Task> =
         tasks.getIfPresent(id)
-            .rightIfNotNull { DomainError.NotFound("Task '$id' not found") }
+            .rightIfNotNull { TaskError.NotFound("Task '$id' not found") }
 
     override fun delete(id: UUID): DResult<Unit> = Either.trying { tasks.invalidate(id) }
 

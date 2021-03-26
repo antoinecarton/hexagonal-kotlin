@@ -5,7 +5,7 @@ import arrow.core.flatMap
 import arrow.core.left
 import io.hexagonal.domain.model.DRequest
 import io.hexagonal.domain.model.DResult
-import io.hexagonal.domain.model.DomainError
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.ports.primary.command.CreateTask
 import io.hexagonal.domain.ports.primary.command.CreateTaskRequest
 import io.hexagonal.domain.ports.primary.command.DeleteTask
@@ -34,20 +34,20 @@ import sTrying
 private fun <R : DRequest, T> withValidRequest(request: R, ifValid: (R) -> DResult<T>): DResult<T> =
     request.validate()
         .fold(
-            { nel -> DomainError.InvalidRules(nel.all.joinToString(separator = ", ") { it.message }).left() },
+            { nel -> TaskError.InvalidRules(nel.all.joinToString(separator = ", ") { it.message }).left() },
             { ifValid(request) }
         )
 
 private suspend inline fun <reified T : Any> withValidBody(call: ApplicationCall): DResult<T> =
-    Either.sTrying({ call.receive() }, { DomainError.InvalidRules("Invalid body") })
+    Either.sTrying({ call.receive() }, { TaskError.InvalidRules("Invalid body") })
 
-private fun toHttpError(error: DomainError): Pair<HttpStatusCode, String> {
+private fun toHttpError(error: TaskError): Pair<HttpStatusCode, String> {
     return when (error) {
-        is DomainError.InvalidRules -> HttpStatusCode.BadRequest to error.message
-        is DomainError.AlreadyExist -> HttpStatusCode.Conflict to error.message
-        is DomainError.InvalidState -> HttpStatusCode.BadRequest to error.message
-        is DomainError.NotFound -> HttpStatusCode.NotFound to error.message
-        is DomainError.Unknown -> HttpStatusCode.InternalServerError to error.message
+        is TaskError.InvalidRules -> HttpStatusCode.BadRequest to error.message
+        is TaskError.AlreadyExist -> HttpStatusCode.Conflict to error.message
+        is TaskError.InvalidState -> HttpStatusCode.BadRequest to error.message
+        is TaskError.NotFound -> HttpStatusCode.NotFound to error.message
+        is TaskError.Unknown -> HttpStatusCode.InternalServerError to error.message
     }
 }
 

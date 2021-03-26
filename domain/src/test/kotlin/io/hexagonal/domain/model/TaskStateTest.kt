@@ -2,7 +2,7 @@ package io.hexagonal.domain.model
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError.InvalidState
+import io.hexagonal.domain.model.TaskError.InvalidState
 import io.hexagonal.domain.model.TaskState.CANCELLED
 import io.hexagonal.domain.model.TaskState.DONE
 import io.hexagonal.domain.model.TaskState.IN_PROGRESS

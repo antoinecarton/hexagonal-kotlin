@@ -2,7 +2,7 @@ package io.hexagonal.domain.usecase.command
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.ports.primary.command.DeleteTaskRequest
 import io.hexagonal.domain.ports.secondary.TaskPort
 import io.kotest.core.spec.style.FunSpec
@@ -39,7 +39,7 @@ class DeleteTaskUseCaseTest: FunSpec() {
 
             val id = UUID.randomUUID()
             val request = DeleteTaskRequest(id.toString())
-            val domainError = DomainError.Unknown("Force an unknown error")
+            val domainError = TaskError.Unknown("Force an unknown error")
             every { taskPort.delete(id) } returns domainError.left()
 
 

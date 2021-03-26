@@ -13,7 +13,7 @@ data class Task(val id: UUID, val name: Name, val content: Content, val state: T
     constructor(name: Name, content: Content) : this(UUID.randomUUID(), name, content)
     constructor(name: Name, content: Content, state: TaskState) : this(UUID.randomUUID(), name, content, state)
 
-    fun move(to: TaskState): Either<DomainError, Task> =
+    fun move(to: TaskState): Either<TaskError, Task> =
         state.move(to)
             .map { this.copy(state = it) }
 }

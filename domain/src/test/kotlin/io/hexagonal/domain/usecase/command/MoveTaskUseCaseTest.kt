@@ -2,7 +2,7 @@ package io.hexagonal.domain.usecase.command
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.DomainError
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.primary.command.MoveTaskRequest
@@ -55,7 +55,7 @@ class MoveTaskUseCaseTest: FunSpec() {
 
             // Then
             verify(exactly = 1) { taskPort.get(eq(id)) }
-            result shouldBe DomainError.InvalidState("Task has been cancelled and is no longer modifiable.").left()
+            result shouldBe TaskError.InvalidState("Task has been cancelled and is no longer modifiable.").left()
         }
 
         test("'move' must return a Left when port failed to move the task to a new state") {
@@ -67,7 +67,7 @@ class MoveTaskUseCaseTest: FunSpec() {
             val request = MoveTaskRequest(id.toString(), TaskState.CANCELLED.name)
             val task = Task(id, "name", "content", TaskState.TODO)
             val cancelled = task.copy(state = TaskState.CANCELLED)
-            val domainError = DomainError.Unknown("Force an unknown error")
+            val domainError = TaskError.Unknown("Force an unknown error")
             every { taskPort.get(id) } returns task.right()
             every { taskPort.save(cancelled) } returns domainError.left()
 
