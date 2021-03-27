@@ -1,3 +1,5 @@
+package io.hexagonal.domain.model.extensions
+
 import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.NonEmptyList

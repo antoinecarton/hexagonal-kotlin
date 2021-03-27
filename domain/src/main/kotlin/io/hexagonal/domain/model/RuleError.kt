@@ -4,7 +4,7 @@ import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.Validated
 import arrow.core.nel
-import tryingNel
+import io.hexagonal.domain.model.extensions.tryingNel
 import java.util.*
 
 sealed class RuleError(val message: String) {

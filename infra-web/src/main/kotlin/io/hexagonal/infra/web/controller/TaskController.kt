@@ -29,7 +29,7 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.put
 import io.ktor.routing.route
-import sTrying
+import io.hexagonal.domain.model.extensions.sTrying
 
 private fun <R : DRequest, T> withValidRequest(request: R, ifValid: (R) -> DResult<T>): DResult<T> =
     request.validate()

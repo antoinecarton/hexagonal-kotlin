@@ -10,7 +10,7 @@ import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.secondary.TaskPort
-import trying
+import io.hexagonal.domain.model.extensions.trying
 import java.util.*
 
 /**
