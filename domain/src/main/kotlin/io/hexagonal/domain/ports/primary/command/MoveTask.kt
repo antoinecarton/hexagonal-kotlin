@@ -21,5 +21,5 @@ data class MoveTaskRequest(val id: String, val state: String) : DRequest {
 }
 
 interface MoveTask {
-    fun move(request: MoveTaskRequest): DResult<Task>
+    suspend fun move(request: MoveTaskRequest): DResult<Task>
 }

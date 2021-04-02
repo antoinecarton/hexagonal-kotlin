@@ -7,7 +7,7 @@ object Versions {
 }
 
 object TestVersions {
-    val kotest = "4.4.1"
+    val kotest = "4.4.3"
     val junit = "5.5.1"
     val mockk = "1.10.6"
 }

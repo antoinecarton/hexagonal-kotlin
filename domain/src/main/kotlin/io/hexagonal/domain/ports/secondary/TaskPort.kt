@@ -5,9 +5,9 @@ import io.hexagonal.domain.model.Task
 import java.util.*
 
 interface TaskPort {
-    fun create(task: Task): DResult<Task>
-    fun move(task: Task): DResult<Task>
-    fun all(): DResult<List<Task>>
-    fun get(id: UUID): DResult<Task>
-    fun delete(id: UUID): DResult<Unit>
+    suspend fun create(task: Task): DResult<Task>
+    suspend fun move(task: Task): DResult<Task>
+    suspend fun all(): DResult<List<Task>>
+    suspend fun get(id: UUID): DResult<Task>
+    suspend fun delete(id: UUID): DResult<Unit>
 }

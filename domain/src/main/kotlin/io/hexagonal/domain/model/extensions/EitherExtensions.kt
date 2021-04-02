@@ -8,7 +8,7 @@ import io.hexagonal.domain.model.TaskError
 
 fun <T> Either.Companion.trying(block: () -> T): DResult<T> =
     catch { block() }
-        .mapLeft<TaskError> { TaskError.Unknown(it.message ?: "", it) }
+        .mapLeft { TaskError.Unknown(it.message ?: "", it) }
 
 suspend fun <T> Either.Companion.sTrying(block: suspend () -> T, ifFail: (Throwable) -> TaskError): DResult<T> =
     catch { block() }

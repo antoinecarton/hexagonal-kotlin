@@ -1,16 +1,16 @@
 package io.hexagonal.infra.db
 
 import arrow.core.Either
+import arrow.core.computations.either
 import arrow.core.left
-import arrow.core.right
 import arrow.core.rightIfNotNull
 import com.github.benmanes.caffeine.cache.Caffeine
 import io.hexagonal.domain.model.DResult
-import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.TaskState
-import io.hexagonal.domain.ports.secondary.TaskPort
 import io.hexagonal.domain.model.extensions.trying
+import io.hexagonal.domain.ports.secondary.TaskPort
 import java.util.*
 
 /**
@@ -39,34 +39,38 @@ class InMemoryTaskDb : TaskPort {
         tasks.putAll(mapOf(doneTask.id to doneTask, cancelledTask.id to cancelledTask))
     }
 
-    override fun create(task: Task): DResult<Task> =
+    override suspend fun create(task: Task): DResult<Task> =
         get(task.id).fold(
             {
                 when (it) {
                     is TaskError.NotFound -> {
-                        tasks.put(task.id, task)
-                        task.right()
+                        either {
+                            Either.trying { tasks.put(task.id, task) }.bind()
+                            task
+                        }
                     }
                     else -> it.left()
                 }
             },
-            {
-                TaskError.AlreadyExist("Task with name ${task.name} already exists").left()
-            }
+            { TaskError.AlreadyExist("Task with name ${task.name} already exists").left() }
         )
 
-    override fun move(task: Task): DResult<Task> =
-        Either.trying {
-            tasks.invalidate(task.id)
-            tasks.put(task.id, task)
-        }.map { task }
+    override suspend fun move(task: Task): DResult<Task> =
+        either {
+            invalidateTask(task.id).bind()
+            Either.trying { tasks.put(task.id, task) }.bind()
+            task
+        }
 
-    override fun all(): DResult<List<Task>> = tasks.asMap().values.toList().right()
+    override suspend fun all(): DResult<List<Task>> =
+         Either.trying { tasks.asMap().values.toList() }
 
-    override fun get(id: UUID): DResult<Task> =
+    override suspend fun get(id: UUID): DResult<Task> =
         tasks.getIfPresent(id)
             .rightIfNotNull { TaskError.NotFound("Task '$id' not found") }
 
-    override fun delete(id: UUID): DResult<Unit> = Either.trying { tasks.invalidate(id) }
+    override suspend fun delete(id: UUID): DResult<Unit> = invalidateTask(id)
+
+    private fun invalidateTask(id: UUID): DResult<Unit> = Either.trying { tasks.invalidate(id) }
 
 }

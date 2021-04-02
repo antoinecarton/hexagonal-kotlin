@@ -14,5 +14,5 @@ data class GetTaskRequest(val id: String) : DRequest {
 }
 
 interface GetTask {
-    fun get(request: GetTaskRequest): DResult<Task>
+    suspend fun get(request: GetTaskRequest): DResult<Task>
 }

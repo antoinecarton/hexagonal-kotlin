@@ -4,5 +4,5 @@ import io.hexagonal.domain.model.DResult
 import io.hexagonal.domain.model.Task
 
 interface GetTasks {
-    fun all(): DResult<List<Task>>
+    suspend fun all(): DResult<List<Task>>
 }

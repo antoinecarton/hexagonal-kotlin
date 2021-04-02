@@ -23,5 +23,5 @@ data class CreateTaskRequest(val name: Name, val content: Content) : DRequest {
 }
 
 interface CreateTask {
-    fun create(request: CreateTaskRequest): DResult<Task>
+    suspend fun create(request: CreateTaskRequest): DResult<Task>
 }

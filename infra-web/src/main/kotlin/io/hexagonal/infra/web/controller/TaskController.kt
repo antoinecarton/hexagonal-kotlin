@@ -31,7 +31,7 @@ import io.ktor.routing.put
 import io.ktor.routing.route
 import io.hexagonal.domain.model.extensions.sTrying
 
-private fun <R : DRequest, T> withValidRequest(request: R, ifValid: (R) -> DResult<T>): DResult<T> =
+private suspend fun <R : DRequest, T> withValidRequest(request: R, ifValid: suspend (R) -> DResult<T>): DResult<T> =
     request.validate()
         .fold(
             { nel -> TaskError.InvalidRules(nel.all.joinToString(separator = ", ") { it.message }).left() },

@@ -8,9 +8,9 @@ import io.hexagonal.domain.ports.secondary.TaskPort
 import io.hexagonal.domain.usecase.command.CreateTaskUseCase.Companion.toTask
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.coVerify
 
 class CreateTaskUseCaseTest: FunSpec() {
 
@@ -22,13 +22,13 @@ class CreateTaskUseCaseTest: FunSpec() {
 
             val request = CreateTaskRequest("name", "content")
             val task = request.toTask()
-            every { taskPort.create(any()) } returns task.right()
+            coEvery { taskPort.create(any()) } returns task.right()
 
             // When
             val result = useCase.create(request)
 
             // Then
-            verify(exactly = 1) { taskPort.create(any()) }
+            coVerify(exactly = 1) { taskPort.create(any()) }
             result shouldBe task.right()
         }
 
@@ -39,13 +39,13 @@ class CreateTaskUseCaseTest: FunSpec() {
 
             val request = CreateTaskRequest("name", "content")
             val domainError = AlreadyExist("Task with name ${request.name} already exists")
-            every { taskPort.create(any()) } returns domainError.left()
+            coEvery { taskPort.create(any()) } returns domainError.left()
 
             // When
             val result = useCase.create(request)
 
             // Then
-            verify(exactly = 1) { taskPort.create(any()) }
+            coVerify(exactly = 1) { taskPort.create(any()) }
             result shouldBe domainError.left()
         }
     }

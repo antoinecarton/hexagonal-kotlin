@@ -2,10 +2,10 @@ package io.hexagonal.infra.web.controller
 
 import arrow.core.left
 import arrow.core.right
+import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskError.InvalidState
 import io.hexagonal.domain.model.TaskError.NotFound
 import io.hexagonal.domain.model.TaskError.Unknown
-import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.primary.command.CreateTaskRequest
 import io.hexagonal.domain.ports.primary.command.DeleteTaskRequest
@@ -17,20 +17,19 @@ import io.hexagonal.domain.usecase.command.MoveTaskUseCase
 import io.hexagonal.domain.usecase.query.GetTaskUseCase
 import io.hexagonal.domain.usecase.query.GetTasksUseCase
 import io.kotest.core.spec.style.FunSpec
-import io.ktor.application.ApplicationCall
+import io.ktor.application.*
 import io.ktor.http.HttpStatusCode.Companion.BadRequest
 import io.ktor.http.HttpStatusCode.Companion.Created
 import io.ktor.http.HttpStatusCode.Companion.InternalServerError
 import io.ktor.http.HttpStatusCode.Companion.NoContent
 import io.ktor.http.HttpStatusCode.Companion.NotFound
 import io.ktor.http.HttpStatusCode.Companion.OK
-import io.ktor.request.receive
-import io.ktor.response.respond
+import io.ktor.request.*
+import io.ktor.response.*
 import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -59,8 +58,8 @@ class TaskControllerTest : FunSpec() {
             val task = Task(UUID.fromString(id), "name", "content", TaskState.IN_PROGRESS)
 
             val call = spyk<ApplicationCall>()
-            every { call.parameters["id"] } returns id
-            every { getTask.get(GetTaskRequest(id)) } returns task.right()
+            coEvery { call.parameters["id"] } returns id
+            coEvery { getTask.get(GetTaskRequest(id)) } returns task.right()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
 
@@ -75,8 +74,8 @@ class TaskControllerTest : FunSpec() {
             // Given
             val id = "0661ef75-3e57-47d1-b8b0-c90d7be6d653"
             val call = spyk<ApplicationCall>()
-            every { call.parameters["id"] } returns id
-            every { getTask.get(GetTaskRequest(id)) } returns NotFound("Force a not found").left()
+            coEvery { call.parameters["id"] } returns id
+            coEvery { getTask.get(GetTaskRequest(id)) } returns NotFound("Force a not found").left()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
 
@@ -101,7 +100,7 @@ class TaskControllerTest : FunSpec() {
             val tasks = listOf(t1, t2)
 
             val call = spyk<ApplicationCall>()
-            every { getTasks.all() } returns tasks.right()
+            coEvery { getTasks.all() } returns tasks.right()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
 
@@ -115,7 +114,7 @@ class TaskControllerTest : FunSpec() {
         test("'all' must return a 500 when an error occurs") {
             // Given
             val call = spyk<ApplicationCall>()
-            every { getTasks.all() } returns Unknown("Force an unknown error").left()
+            coEvery { getTasks.all() } returns Unknown("Force an unknown error").left()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
 
@@ -132,7 +131,7 @@ class TaskControllerTest : FunSpec() {
             val request = CreateTaskRequest("name", "content")
 
             val call = spyk<ApplicationCall>()
-            every { createTask.create(request) } returns task.right()
+            coEvery { createTask.create(request) } returns task.right()
             coEvery { call.receive<CreateTaskRequest>() } returns request
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
@@ -164,7 +163,7 @@ class TaskControllerTest : FunSpec() {
         test("'delete' must return a 400 Bad Request when request is invalid") {
             // Given
             val call = spyk<ApplicationCall>()
-            every { call.parameters["id"] } returns "invalid-id"
+            coEvery { call.parameters["id"] } returns "invalid-id"
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
 
@@ -180,8 +179,8 @@ class TaskControllerTest : FunSpec() {
             val call = spyk<ApplicationCall>()
             val id = "0661ef75-3e57-47d1-b8b0-c90d7be6d653"
             val request = DeleteTaskRequest(id)
-            every { call.parameters["id"] } returns id
-            every { deleteTask.delete(request) } returns Unit.right()
+            coEvery { call.parameters["id"] } returns id
+            coEvery { deleteTask.delete(request) } returns Unit.right()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any()) } just Runs
 
@@ -196,7 +195,7 @@ class TaskControllerTest : FunSpec() {
             // Given
             val call = spyk<ApplicationCall>()
             val stateBody = TaskController.Companion.StateBody("unknown_state")
-            every { call.parameters["id"] } returns "invalid-id"
+            coEvery { call.parameters["id"] } returns "invalid-id"
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
             coEvery { call.receive<TaskController.Companion.StateBody>() } returns stateBody
@@ -214,8 +213,8 @@ class TaskControllerTest : FunSpec() {
             val id = "0661ef75-3e57-47d1-b8b0-c90d7be6d653"
             val stateBody = TaskController.Companion.StateBody("DONE")
             val request = MoveTaskRequest(id, "DONE")
-            every { call.parameters["id"] } returns id
-            every { moveTask.move(request) } returns InvalidState("Task has been done and is no longer modifiable.").left()
+            coEvery { call.parameters["id"] } returns id
+            coEvery { moveTask.move(request) } returns InvalidState("Task has been done and is no longer modifiable.").left()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
             coEvery { call.receive<TaskController.Companion.StateBody>() } returns stateBody
@@ -235,8 +234,8 @@ class TaskControllerTest : FunSpec() {
             val stateBody = TaskController.Companion.StateBody("CANCELLED")
             val request = MoveTaskRequest(id, "CANCELLED")
             val cancelled = task.copy(state = TaskState.CANCELLED)
-            every { call.parameters["id"] } returns id
-            every { moveTask.move(request) } returns cancelled.right()
+            coEvery { call.parameters["id"] } returns id
+            coEvery { moveTask.move(request) } returns cancelled.right()
             coEvery { call.response.status(any()) } just Runs
             coEvery { call.respond(any(), any()) } just Runs
             coEvery { call.receive<TaskController.Companion.StateBody>() } returns stateBody

@@ -8,7 +8,7 @@ import io.hexagonal.domain.ports.secondary.TaskPort
 import java.util.*
 
 class CreateTaskUseCase(private val taskPort: TaskPort) : CreateTask {
-    override fun create(request: CreateTaskRequest): DResult<Task> =
+    override suspend fun create(request: CreateTaskRequest): DResult<Task> =
         taskPort.create(request.toTask())
 
     companion object {

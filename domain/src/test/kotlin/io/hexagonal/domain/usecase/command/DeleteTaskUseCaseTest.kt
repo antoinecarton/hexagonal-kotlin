@@ -7,9 +7,9 @@ import io.hexagonal.domain.ports.primary.command.DeleteTaskRequest
 import io.hexagonal.domain.ports.secondary.TaskPort
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.every
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import java.util.*
 
 class DeleteTaskUseCaseTest: FunSpec() {
@@ -22,13 +22,13 @@ class DeleteTaskUseCaseTest: FunSpec() {
 
             val id = UUID.randomUUID()
             val request = DeleteTaskRequest(id.toString())
-            every { taskPort.delete(id) } returns Unit.right()
+            coEvery { taskPort.delete(id) } returns Unit.right()
 
             // When
             val result = useCase.delete(request)
 
             // Then
-            verify(exactly = 1) { taskPort.delete(eq(id)) }
+            coVerify(exactly = 1) { taskPort.delete(eq(id)) }
             result shouldBe Unit.right()
         }
 
@@ -40,14 +40,14 @@ class DeleteTaskUseCaseTest: FunSpec() {
             val id = UUID.randomUUID()
             val request = DeleteTaskRequest(id.toString())
             val domainError = TaskError.Unknown("Force an unknown error")
-            every { taskPort.delete(id) } returns domainError.left()
+            coEvery { taskPort.delete(id) } returns domainError.left()
 
 
             // When
             val result = useCase.delete(request)
 
             // Then
-            verify(exactly = 1) { taskPort.delete(eq(id)) }
+            coVerify(exactly = 1) { taskPort.delete(eq(id)) }
             result shouldBe domainError.left()
         }
     }

@@ -13,5 +13,5 @@ data class DeleteTaskRequest(val id: String) : DRequest {
 }
 
 interface DeleteTask {
-    fun delete(request: DeleteTaskRequest): DResult<Unit>
+    suspend fun delete(request: DeleteTaskRequest): DResult<Unit>
 }

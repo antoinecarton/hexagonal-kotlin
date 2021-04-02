@@ -8,6 +8,6 @@ import io.hexagonal.domain.ports.secondary.TaskPort
 import java.util.*
 
 class GetTaskUseCase(private val taskPort: TaskPort) : GetTask {
-    override fun get(request: GetTaskRequest): DResult<Task> =
+    override suspend fun get(request: GetTaskRequest): DResult<Task> =
         taskPort.get(UUID.fromString(request.id))
 }

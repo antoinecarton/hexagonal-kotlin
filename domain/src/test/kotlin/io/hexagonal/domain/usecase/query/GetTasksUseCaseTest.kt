@@ -2,15 +2,15 @@ package io.hexagonal.domain.usecase.query
 
 import arrow.core.left
 import arrow.core.right
-import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.Task
+import io.hexagonal.domain.model.TaskError
 import io.hexagonal.domain.model.TaskState
 import io.hexagonal.domain.ports.secondary.TaskPort
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.every
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 
 class GetTasksUseCaseTest: FunSpec() {
 
@@ -25,13 +25,13 @@ class GetTasksUseCaseTest: FunSpec() {
 
             val tasks = listOf(t1, t2)
 
-            every { taskPort.all() } returns tasks.right()
+            coEvery { taskPort.all() } returns tasks.right()
 
             // When
             val result = useCase.all()
 
             // Then
-            verify(exactly = 1) { taskPort.all() }
+            coVerify(exactly = 1) { taskPort.all() }
             result shouldBe tasks.right()
         }
 
@@ -41,13 +41,13 @@ class GetTasksUseCaseTest: FunSpec() {
             val useCase = GetTasksUseCase(taskPort)
 
             val domainError = TaskError.Unknown("Force an unknown error")
-            every { taskPort.all() } returns domainError.left()
+            coEvery { taskPort.all() } returns domainError.left()
 
             // When
             val result = useCase.all()
 
             // Then
-            verify(exactly = 1) { taskPort.all() }
+            coVerify(exactly = 1) { taskPort.all() }
             result shouldBe domainError.left()
         }
     }
