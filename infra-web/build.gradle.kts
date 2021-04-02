@@ -12,8 +12,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":infra-db"))
     implementation(Deps.arrowCore)
-    implementation(Deps.arrowCoreData)
-    implementation(Deps.arrowSyntax)
     implementation(Deps.ktorServerCore)
     implementation(Deps.ktorServerNetty)
     implementation(Deps.ktorJackson)

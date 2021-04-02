@@ -1,9 +1,9 @@
 package io.hexagonal.domain.request.command
 
 import arrow.core.Invalid
-import arrow.core.NonEmptyList
 import arrow.core.Validated
 import arrow.core.invalidNel
+import arrow.core.nonEmptyListOf
 import io.hexagonal.domain.model.RuleError
 import io.hexagonal.domain.ports.primary.command.CreateTaskRequest
 import io.kotest.core.spec.style.FunSpec
@@ -42,7 +42,7 @@ class CreateTaskRequestTest: FunSpec() {
             val result = request.validate()
 
             // Then
-            result shouldBe Invalid(NonEmptyList(RuleError.InvalidTaskName, RuleError.InvalidTaskContent))
+            result shouldBe Invalid(nonEmptyListOf(RuleError.InvalidTaskName, RuleError.InvalidTaskContent))
         }
 
         test("'validate' must return a valid when request is valid") {

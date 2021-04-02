@@ -1,6 +1,6 @@
 object Versions {
     val kotlin = "1.4.31"
-    val arrow = "0.11.0"
+    val arrow = "0.13.1"
     val ktor = "1.5.2"
     val logback = "1.2.3"
     val caffeine = "2.9.0"
@@ -15,8 +15,6 @@ object TestVersions {
 object Deps {
     val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
-    val arrowCoreData = "io.arrow-kt:arrow-core-data:${Versions.arrow}"
-    val arrowSyntax = "io.arrow-kt:arrow-syntax:${Versions.arrow}"
     val ktorServerCore = "io.ktor:ktor-server-core:${Versions.ktor}"
     val ktorServerNetty = "io.ktor:ktor-server-netty:${Versions.ktor}"
     val ktorJackson = "io.ktor:ktor-jackson:${Versions.ktor}"

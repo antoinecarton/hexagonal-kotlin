@@ -9,8 +9,6 @@ repositories {
 dependencies {
     implementation(Deps.kotlinStdLib)
     implementation(Deps.arrowCore)
-    implementation(Deps.arrowCoreData)
-    implementation(Deps.arrowSyntax)
 
     testImplementation(TestDeps.kotestRunnerJunit5)
     testImplementation(TestDeps.kotestAssertions)
