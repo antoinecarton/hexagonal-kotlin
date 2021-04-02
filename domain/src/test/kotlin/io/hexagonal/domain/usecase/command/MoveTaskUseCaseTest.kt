@@ -27,14 +27,14 @@ class MoveTaskUseCaseTest: FunSpec() {
             val task = Task(id, "name", "content", TaskState.TODO)
             val cancelled = task.copy(state = TaskState.CANCELLED)
             every { taskPort.get(id) } returns task.right()
-            every { taskPort.save(cancelled) } returns cancelled.right()
+            every { taskPort.move(cancelled) } returns cancelled.right()
 
             // When
             val result = useCase.move(request)
 
             // Then
             verify(exactly = 1) { taskPort.get(eq(id)) }
-            verify(exactly = 1) { taskPort.save(eq(cancelled)) }
+            verify(exactly = 1) { taskPort.move(eq(cancelled)) }
             result shouldBe cancelled.right()
 
         }
@@ -69,14 +69,14 @@ class MoveTaskUseCaseTest: FunSpec() {
             val cancelled = task.copy(state = TaskState.CANCELLED)
             val domainError = TaskError.Unknown("Force an unknown error")
             every { taskPort.get(id) } returns task.right()
-            every { taskPort.save(cancelled) } returns domainError.left()
+            every { taskPort.move(cancelled) } returns domainError.left()
 
             // When
             val result = useCase.move(request)
 
             // Then
             verify(exactly = 1) { taskPort.get(eq(id)) }
-            verify(exactly = 1) { taskPort.save(eq(cancelled)) }
+            verify(exactly = 1) { taskPort.move(eq(cancelled)) }
             result shouldBe domainError.left()
         }
     }

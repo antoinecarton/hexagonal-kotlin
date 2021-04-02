@@ -13,5 +13,5 @@ class MoveTaskUseCase(private val taskPort: TaskPort) : MoveTask {
     override fun move(request: MoveTaskRequest): DResult<Task> =
         taskPort.get(UUID.fromString(request.id))
             .flatMap { it.move(TaskState.valueOf(request.state)) }
-            .flatMap { taskPort.save(it) }
+            .flatMap { taskPort.move(it) }
 }

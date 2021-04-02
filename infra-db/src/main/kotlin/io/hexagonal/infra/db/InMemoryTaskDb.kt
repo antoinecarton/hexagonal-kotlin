@@ -55,7 +55,7 @@ class InMemoryTaskDb : TaskPort {
             }
         )
 
-    override fun save(task: Task): DResult<Task> =
+    override fun move(task: Task): DResult<Task> =
         Either.trying {
             tasks.invalidate(task.id)
             tasks.put(task.id, task)

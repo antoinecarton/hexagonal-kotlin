@@ -6,7 +6,7 @@ import java.util.*
 
 interface TaskPort {
     fun create(task: Task): DResult<Task>
-    fun save(task: Task): DResult<Task>
+    fun move(task: Task): DResult<Task>
     fun all(): DResult<List<Task>>
     fun get(id: UUID): DResult<Task>
     fun delete(id: UUID): DResult<Unit>
