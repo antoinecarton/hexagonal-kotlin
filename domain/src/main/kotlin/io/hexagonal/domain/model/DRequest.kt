@@ -1,8 +1,8 @@
 package io.hexagonal.domain.model
 
-import arrow.core.NonEmptyList
+import arrow.core.Nel
 import arrow.core.Validated
 
 interface DRequest {
-    fun validate(): Validated<NonEmptyList<RuleError>, Unit>
+    fun validate(): Validated<Nel<RuleError>, Unit>
 }

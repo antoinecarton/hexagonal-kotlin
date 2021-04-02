@@ -1,6 +1,6 @@
 package io.hexagonal.domain.ports.primary.command
 
-import arrow.core.NonEmptyList
+import arrow.core.Nel
 import arrow.core.Validated
 import arrow.core.zip
 import arrow.typeclasses.Semigroup
@@ -12,7 +12,7 @@ import io.hexagonal.domain.model.validTaskState
 import io.hexagonal.domain.model.validUuid
 
 data class MoveTaskRequest(val id: String, val state: String) : DRequest {
-    override fun validate(): Validated<NonEmptyList<RuleError>, Unit> =
+    override fun validate(): Validated<Nel<RuleError>, Unit> =
         validUuid(id)
             .zip(
                 Semigroup.nonEmptyList(),

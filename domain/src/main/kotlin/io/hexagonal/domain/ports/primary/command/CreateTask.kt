@@ -1,6 +1,6 @@
 package io.hexagonal.domain.ports.primary.command
 
-import arrow.core.NonEmptyList
+import arrow.core.Nel
 import arrow.core.Validated
 import arrow.core.nel
 import arrow.core.zip
@@ -14,7 +14,7 @@ import io.hexagonal.domain.model.Task
 import io.hexagonal.domain.model.notBlank
 
 data class CreateTaskRequest(val name: Name, val content: Content) : DRequest {
-    override fun validate(): Validated<NonEmptyList<RuleError>, Unit> =
+    override fun validate(): Validated<Nel<RuleError>, Unit> =
         notBlank(name) { RuleError.InvalidTaskName.nel() }
             .zip(
                 Semigroup.nonEmptyList(),
